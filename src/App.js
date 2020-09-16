@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import Photos from "./components/Photos";
+import Navbar from "./components/NavBar";
+import "./main.scss";
 
-function App() {
+const App = () => {
+  const [listOfPhotos, setListOfPhotos] = useState({});
+  const [urlPage, setUrlPage] = useState(1);
+  const url = `https://picsum.photos/v2/list?page=${urlPage}&limit=30`;
+
+  useEffect(() => {
+    const getListOfPhotos = async () => {
+      await fetch(url)
+        .then((res) => res.json())
+        .then((data) => {
+          setListOfPhotos(data);
+        });
+    };
+
+    getListOfPhotos();
+  }, [url]);
+
+  const handleUrl = (size) => {
+    if (size >= 30) {
+      setUrlPage(urlPage + 1);
+    }
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <Navbar />
+      <main className="main-container">
+        {listOfPhotos.length > 0 && (
+          <Photos handleUrl={handleUrl} listOfPhotos={listOfPhotos} />
+        )}
+      </main>
+    </>
   );
-}
+};
 
 export default App;
