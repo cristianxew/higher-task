@@ -7,7 +7,7 @@ const NavBar = () => {
     <nav>
       <ul>
         <li>
-          Frontend Developer Intern Task By - <span>Cristian Bernal</span>
+          Frontend Developer Task By - <span>Cristian Bernal</span>
         </li>
         <li>
           <a
